@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.UserStatus;
-import com.example.demo.model.dto.UserUpdateDto;
-import com.example.demo.repository.UserEntity;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.domain.UserUpdate;
+import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.infrastructure.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -109,7 +109,7 @@ class UserControllerTest {
         final long id = 10L;
         final String email = "minh317@naver.com";
 
-        UserUpdateDto userUpdateDto = UserUpdateDto.builder()
+        UserUpdate userUpdate = UserUpdate.builder()
                 .nickname("pool")
                 .build();
 
@@ -119,7 +119,7 @@ class UserControllerTest {
         mockMvc.perform(put("/api/users/me")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("EMAIL", email)
-                        .content(objectMapper.writeValueAsBytes(userUpdateDto)))
+                        .content(objectMapper.writeValueAsBytes(userUpdate)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.email").value(email))
@@ -141,7 +141,7 @@ class UserControllerTest {
         final long id = 10L;
         final String email = "minh317@naver.com";
 
-        UserUpdateDto userUpdateDto = UserUpdateDto.builder()
+        UserUpdate userUpdate = UserUpdate.builder()
                 .address("Seoul")
                 .build();
 
@@ -151,7 +151,7 @@ class UserControllerTest {
         mockMvc.perform(put("/api/users/me")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("EMAIL", email)
-                        .content(objectMapper.writeValueAsBytes(userUpdateDto)))
+                        .content(objectMapper.writeValueAsBytes(userUpdate)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.email").value(email))
@@ -172,7 +172,7 @@ class UserControllerTest {
         // given
         final String email = "minh317@invalid.email.com";
 
-        UserUpdateDto userUpdateDto = UserUpdateDto.builder()
+        UserUpdate userUpdate = UserUpdate.builder()
                 .nickname("pool")
                 .build();
 
@@ -182,7 +182,7 @@ class UserControllerTest {
         mockMvc.perform(put("/api/users/me")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("EMAIL", email)
-                        .content(objectMapper.writeValueAsBytes(userUpdateDto)))
+                        .content(objectMapper.writeValueAsBytes(userUpdate)))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(String.format("Users에서 ID %s를 찾을 수 없습니다.", email)));
     }

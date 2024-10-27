@@ -1,11 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.CertificationCodeNotMatchedException;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.UserStatus;
-import com.example.demo.model.dto.UserCreateDto;
-import com.example.demo.model.dto.UserUpdateDto;
-import com.example.demo.repository.UserEntity;
+import com.example.demo.common.exception.CertificationCodeNotMatchedException;
+import com.example.demo.common.exception.ResourceNotFoundException;
+import com.example.demo.user.domain.UserCreate;
+import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.domain.UserUpdate;
+import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -92,14 +93,14 @@ class UserServiceTest {
     @Test
     void create() {
         // given
-        UserCreateDto userCreateDto = UserCreateDto.builder()
+        UserCreate userCreate = UserCreate.builder()
                 .email("minh319@naver.com")
                 .address("Seoul")
                 .nickname("bob")
                 .build();
 
         // when
-        UserEntity user = _userService.create(userCreateDto);
+        UserEntity user = _userService.create(userCreate);
         BDDMockito.doNothing().when(_javaMailSender).send(any(SimpleMailMessage.class));
 
         // then
@@ -111,13 +112,13 @@ class UserServiceTest {
     @Test
     void update() {
         // given
-        UserUpdateDto userUpdateDto = UserUpdateDto.builder()
+        UserUpdate userUpdate = UserUpdate.builder()
                 .address("Seoul")
                 .nickname("bob-N")
                 .build();
 
         // when
-        UserEntity user = _userService.update(10L, userUpdateDto);
+        UserEntity user = _userService.update(10L, userUpdate);
 
         // then
         assertThat(user.getId()).isNotNull();

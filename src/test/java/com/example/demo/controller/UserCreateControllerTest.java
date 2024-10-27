@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.UserCreateDto;
+import com.example.demo.user.domain.UserCreate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ class UserCreateControllerTest {
     @Test
     void test() throws Exception {
         // given
-        UserCreateDto userCreateDto = UserCreateDto.builder()
+        UserCreate userCreate = UserCreate.builder()
                 .email("minh319@naver.com")
                 .nickname("bobpool")
                 .address("jeju")
@@ -51,7 +51,7 @@ class UserCreateControllerTest {
         // when & then
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(_objectMapper.writeValueAsString(userCreateDto)))
+                        .content(_objectMapper.writeValueAsString(userCreate)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.email").value("minh319@naver.com"))

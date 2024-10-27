@@ -1,6 +1,8 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.UserStatus;
+import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.infrastructure.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
