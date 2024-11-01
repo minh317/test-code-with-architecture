@@ -2,6 +2,7 @@ package com.example.demo.user.service;
 
 import com.example.demo.common.exception.CertificationCodeNotMatchedException;
 import com.example.demo.common.exception.ResourceNotFoundException;
+import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserCreate;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserUpdate;
@@ -56,7 +57,7 @@ class UserServiceTest {
         final String email = "minh317@naver.com";
 
         // when
-        UserEntity user = _userService.getByEmail(email);
+        User user = _userService.getByEmail(email);
 
         // then
         assertThat(user).isNotNull();
@@ -82,7 +83,7 @@ class UserServiceTest {
         final long id = 10L;
 
         // when
-        UserEntity user = _userService.getById(id);
+        User user = _userService.getById(id);
 
         // then
         assertThat(user).isNotNull();
@@ -100,7 +101,7 @@ class UserServiceTest {
                 .build();
 
         // when
-        UserEntity user = _userService.create(userCreate);
+        User user = _userService.create(userCreate);
         BDDMockito.doNothing().when(_javaMailSender).send(any(SimpleMailMessage.class));
 
         // then
@@ -118,7 +119,7 @@ class UserServiceTest {
                 .build();
 
         // when
-        UserEntity user = _userService.update(10L, userUpdate);
+        User user = _userService.update(10L, userUpdate);
 
         // then
         assertThat(user.getId()).isNotNull();
@@ -136,7 +137,7 @@ class UserServiceTest {
 
         // when
         _userService.login(id);
-        UserEntity user = _userService.getById(id);
+        User user = _userService.getById(id);
 
         // then
         assertThat(user.getId()).isEqualTo(id);
@@ -164,7 +165,7 @@ class UserServiceTest {
 
         // when
         _userService.verifyEmail(id, certificationCode);
-        UserEntity user = _userService.getById(id);
+        User user = _userService.getById(id);
 
         // then
         assertThat(user.getId()).isEqualTo(id);

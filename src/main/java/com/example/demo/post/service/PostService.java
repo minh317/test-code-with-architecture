@@ -5,6 +5,7 @@ import com.example.demo.post.domain.PostCreate;
 import com.example.demo.post.domain.PostUpdate;
 import com.example.demo.post.infrastructure.PostEntity;
 import com.example.demo.post.infrastructure.PostRepository;
+import com.example.demo.user.domain.User;
 import com.example.demo.user.infrastructure.UserEntity;
 import java.time.Clock;
 
@@ -24,11 +25,13 @@ public class PostService {
     }
 
     public PostEntity create(PostCreate postCreate) {
-        UserEntity userEntity = userService.getById(postCreate.getWriterId());
+        User user = userService.getById(postCreate.getWriterId());
+
         PostEntity postEntity = new PostEntity();
-        postEntity.setWriter(userEntity);
+        postEntity.setWriter(UserEntity.fromModel(user));
         postEntity.setContent(postCreate.getContent());
         postEntity.setCreatedAt(Clock.systemUTC().millis());
+
         return _postRepository.save(postEntity);
     }
 
