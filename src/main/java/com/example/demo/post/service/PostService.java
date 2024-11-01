@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostService {
 
-    private final PostRepository postRepository;
+    private final PostRepository _postRepository;
     private final UserService userService;
 
     public PostEntity getById(long id) {
-        return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Posts", id));
+        return _postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Posts", id));
     }
 
     public PostEntity create(PostCreate postCreate) {
@@ -29,13 +29,13 @@ public class PostService {
         postEntity.setWriter(userEntity);
         postEntity.setContent(postCreate.getContent());
         postEntity.setCreatedAt(Clock.systemUTC().millis());
-        return postRepository.save(postEntity);
+        return _postRepository.save(postEntity);
     }
 
     public PostEntity update(long id, PostUpdate postUpdate) {
         PostEntity postEntity = getById(id);
         postEntity.setContent(postUpdate.getContent());
         postEntity.setModifiedAt(Clock.systemUTC().millis());
-        return postRepository.save(postEntity);
+        return _postRepository.save(postEntity);
     }
 }

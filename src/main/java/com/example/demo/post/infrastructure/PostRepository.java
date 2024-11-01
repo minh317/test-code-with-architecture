@@ -1,7 +1,10 @@
 package com.example.demo.post.infrastructure;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-public interface PostRepository extends JpaRepository<PostEntity, Long> {
+public interface PostRepository {
 
+    PostEntity save(PostEntity postEntity);
+
+    Optional<PostEntity> findById(long id);
 }

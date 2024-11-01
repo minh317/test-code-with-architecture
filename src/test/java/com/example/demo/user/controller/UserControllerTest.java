@@ -3,7 +3,7 @@ package com.example.demo.user.controller;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.user.domain.UserUpdate;
 import com.example.demo.user.infrastructure.UserEntity;
-import com.example.demo.user.infrastructure.UserRepository;
+import com.example.demo.user.infrastructure.UserJpaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ class UserControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserRepository _userRepository;
+    private UserJpaRepository _userJpaRepository;
 
     @DisplayName("특정 ID의 유저 정보를 조회할 수 있다.")
     @Test
@@ -80,7 +80,7 @@ class UserControllerTest {
                 .andExpect(status().isFound())
                 .andExpect(redirectedUrl("http://localhost:3000"));
 
-        UserEntity user = _userRepository.getById(id);
+        UserEntity user = _userJpaRepository.getById(id);
 
         // then
         assertThat(user).isNotNull();
@@ -125,7 +125,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.email").value(email))
                 .andExpect(jsonPath("$.nickname").value("pool"));
 
-        UserEntity user = _userRepository.getById(id);
+        UserEntity user = _userJpaRepository.getById(id);
 
         // then
         assertThat(user).isNotNull();
@@ -157,7 +157,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.email").value(email))
                 .andExpect(jsonPath("$.address").value("Seoul"));
 
-        UserEntity user = _userRepository.getById(id);
+        UserEntity user = _userJpaRepository.getById(id);
 
         // then
         assertThat(user).isNotNull();

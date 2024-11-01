@@ -18,14 +18,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @TestPropertySource("classpath:test-application.yml")
 @Sql("/sql/user-repository-test-data.sql")
-class UserRepositoryTest {
+class UserJpaRepositoryTest {
 
     @Autowired
-    private UserRepository _userRepository;
+    private UserJpaRepository _userJpaRepository;
 
     @AfterEach
     void tearDown() {
-        _userRepository.deleteAllInBatch();
+        _userJpaRepository.deleteAllInBatch();
     }
 
     @DisplayName("유저의 아이디와 상태 값을 토대로 유저를 조회할 수 있다.")
@@ -35,7 +35,7 @@ class UserRepositoryTest {
         final long id = 1L;
 
         // when
-        Optional<UserEntity> findUser = _userRepository.findByIdAndStatus(id, UserStatus.ACTIVE);
+        Optional<UserEntity> findUser = _userJpaRepository.findByIdAndStatus(id, UserStatus.ACTIVE);
 
         // then
         assertThat(findUser.isPresent()).isTrue();
@@ -48,7 +48,7 @@ class UserRepositoryTest {
         final String email = "minh317@naver.com";
 
         // when
-        Optional<UserEntity> optionalFindUser = _userRepository.findByEmailAndStatus(email, UserStatus.ACTIVE);
+        Optional<UserEntity> optionalFindUser = _userJpaRepository.findByEmailAndStatus(email, UserStatus.ACTIVE);
         UserEntity findUser = optionalFindUser.get();
 
         // then
@@ -63,7 +63,7 @@ class UserRepositoryTest {
         final long id = -1L;
 
         // when
-        Optional<UserEntity> optionalFindUser = _userRepository.findByIdAndStatus(id, UserStatus.ACTIVE);
+        Optional<UserEntity> optionalFindUser = _userJpaRepository.findByIdAndStatus(id, UserStatus.ACTIVE);
 
         // then
         assertThat(optionalFindUser.isEmpty()).isTrue();
@@ -76,7 +76,7 @@ class UserRepositoryTest {
         final long id = 1L;
 
         // when
-        Optional<UserEntity> optionalFindUser = _userRepository.findByIdAndStatus(id, UserStatus.PENDING);
+        Optional<UserEntity> optionalFindUser = _userJpaRepository.findByIdAndStatus(id, UserStatus.PENDING);
 
         // then
         assertThat(optionalFindUser.isEmpty()).isTrue();
